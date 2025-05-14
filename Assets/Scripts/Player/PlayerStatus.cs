@@ -17,7 +17,7 @@ namespace Player
         public float RotateSpeed { get; set; }
     
         //플레이어가 어떤 상태인지를 observable property로 구현
-        public ObservableProperty<bool> IsAming { get; private set; } = new(); //조준 상태인가
+        public ObservableProperty<bool> IsAiming { get; private set; } = new(); //조준 상태인가
         public ObservableProperty<bool> IsMoving { get; private set; } = new(); //움직이는 상태인가
         public ObservableProperty<bool> IsAttacking { get; private set; } = new(); //공격 상태인가
     
