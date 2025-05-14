@@ -14,6 +14,9 @@ namespace LDH_Test
         void Update()
         {
             MoveTest();
+            
+            //IsAming 변경용 테스트 코드
+            _status.IsAming.Value = Input.GetKey(KeyCode.Mouse1);
         }
         
         public void MoveTest()
@@ -29,7 +32,11 @@ namespace LDH_Test
             _status.IsMoving.Value = (moveDir != Vector3.zero);
             
             //몸체의 회전
+            Vector3 avatarDir;
+            if (_status.IsAming.Value) avatarDir = camRotateDir;
+            else avatarDir = moveDir; //조준 상태아니면 움직이는 방향을 보도록
             
+            _movement.SetAvatarRotation(avatarDir);
 
         }
 
