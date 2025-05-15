@@ -10,6 +10,8 @@ namespace Player
 
         private PlayerStatus _status;
         private PlayerMovement _movement;
+        private Animator _animator;
+        
         [SerializeField] private CinemachineVirtualCamera _aimCamera;
         
         [SerializeField] private KeyCode _aimKey;
@@ -27,6 +29,7 @@ namespace Player
             _status = GetComponent<PlayerStatus>();
             _movement = GetComponent<PlayerMovement>();
             //_mainCamera = Camera.main.gameObject;
+            _animator = GetComponent<Animator>();
         }
 
         private void HandlePlayerControl()
@@ -62,13 +65,17 @@ namespace Player
         private void SubscribeEvents()
         {
             _status.IsAiming.Subscribe(_aimCamera.gameObject.SetActive);
+            _status.IsAiming.Subscribe(SetAimAnimation);
         }
 
         private void UnsubscribeEvents()
         {
             _status.IsAiming.Unsubscribe(_aimCamera.gameObject.SetActive);
+            _status.IsAiming.Unsubscribe(SetAimAnimation);
 
         }
-        
+
+        private void SetAimAnimation(bool value) => _animator.SetBool("IsAim", value);
+
     }
 }
