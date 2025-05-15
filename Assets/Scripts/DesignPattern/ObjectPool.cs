@@ -14,14 +14,17 @@ namespace DesignPattern
         //2. 오브젝트 반환
         //3. 오브젝트 풀 생성
 
-        public ObjectPool(PooledObject targetPrefab, int initSize = 5) => Init(targetPrefab, initSize);
+        public ObjectPool(Transform parent, PooledObject targetPrefab, int initSize = 5) => Init(parent, targetPrefab, initSize);
 
-        private void Init(PooledObject targetPrefab, int initSize)
+        
+        //오브젝트 풀에 있는 오브젝트들이 파괴되지 않도록 하기 위해 Trasnform을 매개변수로 받아서 싱글톤인 AudioManager 하위로 들어오도록 한다.
+        private void Init(Transform parent, PooledObject targetPrefab, int initSize)
         {
             _stack = new Stack<PooledObject>(initSize);
             _targetPrefab = targetPrefab;
             _poolObject = new GameObject($"{targetPrefab.name} Pool"); //오브젝트 풀 이름을 pooledObject될 오브젝트의 이름으로 생성해버리기
-
+            _poolObject.transform.parent = parent;
+            
             for (int i = 0; i < initSize; i++)
             {
                 //초기화 사이즈만큼 프리팹을 생성해준다. (Instantiate)
@@ -29,7 +32,7 @@ namespace DesignPattern
             }
         }
 
-        public PooledObject Get()
+        public PooledObject PopPool()
         {
             //효과음의 경우 어느정도 오브젝트를 생성해야할지 잘 모르기 때문에 감이 안오기 때문에 일단 용량 제한 걸지 않고 오브젝트 풀 정의
             
