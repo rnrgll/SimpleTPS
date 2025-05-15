@@ -55,6 +55,15 @@ namespace Player
             else avatarDir = moveDir;
 
             _movement.SetAvatarRotation(avatarDir);
+            
+            //입력값에 대한 벡터를 가져온다. 이동방향이 아니라!!
+            if (_status.IsAiming.Value)
+            {
+                Vector3 input = _movement.GetInputDirection();
+                _animator.SetFloat("X", input.x);
+                _animator.SetFloat("Z", input.z);
+                
+            }
         }
 
         private void HandleAiming()
@@ -66,16 +75,17 @@ namespace Player
         {
             _status.IsAiming.Subscribe(_aimCamera.gameObject.SetActive);
             _status.IsAiming.Subscribe(SetAimAnimation);
+            _status.IsMoving.Subscribe(SetMoveAnimation);
         }
 
         private void UnsubscribeEvents()
         {
             _status.IsAiming.Unsubscribe(_aimCamera.gameObject.SetActive);
             _status.IsAiming.Unsubscribe(SetAimAnimation);
-
+            _status.IsMoving.Unsubscribe(SetMoveAnimation);
         }
 
         private void SetAimAnimation(bool value) => _animator.SetBool("IsAim", value);
-
+        private void SetMoveAnimation(bool value) => _animator.SetBool("IsMove", value);
     }
 }

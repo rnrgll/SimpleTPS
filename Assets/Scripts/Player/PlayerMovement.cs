@@ -122,7 +122,7 @@ namespace Player
         private Vector2 GetMouseDirection()
         {
             float mouseX = Input.GetAxis("Mouse X") * _mouseSensitivity; //가로축으로 얼만큼 이동했는지를 반환받을 수 있음 / 마우스 감도를 곱해서 속도까지 지정
-            float mouseY = - Input.GetAxis("Mouse Y") * _mouseSensitivity; //y축은 반대로 되어있어서 -로 뒤집어줘야함
+            float mouseY = -Input.GetAxis("Mouse Y") * _mouseSensitivity; //y축은 반대로 되어있어서 -로 뒤집어줘야함
 
             return new Vector2(mouseX, mouseY);
         }
