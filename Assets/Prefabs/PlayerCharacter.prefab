@@ -452,6 +452,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _aimCamera: {fileID: 4779159108718191920}
   _aimKey: 324
+  _gun: {fileID: 5412148010617027253}
+  _shootKey: 323
 --- !u!1 &8828420110381395535
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,7 +541,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ApplyAfter: 2
   m_ChannelMask: 2
-  m_Gain: 1
+  m_Gain: 0.4
   m_Use2DDistance: 0
   m_UseCameraSpace: 1
   m_ReactionSettings:
@@ -610,6 +612,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2439328306060409343, guid: 464d1116f59074dfb8c11e8bd57d4886, type: 3}
   m_PrefabInstance: {fileID: 1985570944729669593}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5412148010617027253 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5806799846297363820, guid: 464d1116f59074dfb8c11e8bd57d4886, type: 3}
+  m_PrefabInstance: {fileID: 1985570944729669593}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f58e80278954118a9d68463329ab3c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2912736550462566626
 PrefabInstance:
   m_ObjectHideFlags: 0

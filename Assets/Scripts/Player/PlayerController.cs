@@ -13,8 +13,10 @@ namespace Player
         private Animator _animator;
         
         [SerializeField] private CinemachineVirtualCamera _aimCamera;
-        
         [SerializeField] private KeyCode _aimKey;
+
+        [SerializeField] private Gun _gun;
+        [SerializeField] private KeyCode _shootKey;
         
         
         private void Awake() => Init();
@@ -37,6 +39,20 @@ namespace Player
             if (!IsControlActive) return;
             HandleMovement();
             HandleAiming();
+            HandleShooting();
+        }
+
+        private void HandleShooting()
+        {
+            //aim 상태일 때 + shoot 키 누르면 -> 공격 수행
+            if (_status.IsAiming.Value && Input.GetKey(_shootKey))
+            {
+                _status.IsAttacking.Value = _gun.Shoot();
+            }
+            else
+            {
+                _status.IsAttacking.Value = false; 
+            }
         }
 
         private void HandleMovement()
@@ -76,6 +92,7 @@ namespace Player
             _status.IsAiming.Subscribe(_aimCamera.gameObject.SetActive);
             _status.IsAiming.Subscribe(SetAimAnimation);
             _status.IsMoving.Subscribe(SetMoveAnimation);
+            _status.IsAttacking.Subscribe(SetAttackAnimation);
         }
 
         private void UnsubscribeEvents()
@@ -83,9 +100,12 @@ namespace Player
             _status.IsAiming.Unsubscribe(_aimCamera.gameObject.SetActive);
             _status.IsAiming.Unsubscribe(SetAimAnimation);
             _status.IsMoving.Unsubscribe(SetMoveAnimation);
+            _status.IsAttacking.Unsubscribe(SetAttackAnimation);
+
         }
 
         private void SetAimAnimation(bool value) => _animator.SetBool("IsAim", value);
         private void SetMoveAnimation(bool value) => _animator.SetBool("IsMove", value);
+        private void SetAttackAnimation(bool value) => _animator.SetBool("IsAttack", value);
     }
 }
