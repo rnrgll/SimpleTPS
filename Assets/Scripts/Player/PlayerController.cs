@@ -1,6 +1,7 @@
 using System;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Player
 {
@@ -11,11 +12,13 @@ namespace Player
         private PlayerStatus _status;
         private PlayerMovement _movement;
         private Animator _animator;
+        private Image _aimImg;
         
         [SerializeField] private CinemachineVirtualCamera _aimCamera;
-        [SerializeField] private KeyCode _aimKey;
-
         [SerializeField] private Gun _gun;
+        [SerializeField] private Animator _aimAnimator;
+        
+        [SerializeField] private KeyCode _aimKey;
         [SerializeField] private KeyCode _shootKey;
         
         
@@ -30,8 +33,8 @@ namespace Player
         {
             _status = GetComponent<PlayerStatus>();
             _movement = GetComponent<PlayerMovement>();
-            //_mainCamera = Camera.main.gameObject;
             _animator = GetComponent<Animator>();
+            _aimImg = _aimAnimator.GetComponent<Image>();
         }
 
         private void HandlePlayerControl()
@@ -104,7 +107,12 @@ namespace Player
 
         }
 
-        private void SetAimAnimation(bool value) => _animator.SetBool("IsAim", value);
+        private void SetAimAnimation(bool value)
+        {
+            if (!_aimImg.enabled) _aimImg.enabled = true;
+            _animator.SetBool("IsAim", value);
+            _aimAnimator.SetBool("IsAim", value);
+        } 
         private void SetMoveAnimation(bool value) => _animator.SetBool("IsMove", value);
         private void SetAttackAnimation(bool value) => _animator.SetBool("IsAttack", value);
     }
