@@ -65,7 +65,8 @@ namespace Player
             _currentRotation.y = Mathf.Clamp(
                 _currentRotation.y + mouseDir.y, 
                 _minPitch, 
-                _maxPitch);
+                _maxPitch
+                );
 
             //캐릭터 오브젝트의 경우에는 y축 회전만 반영되어야 한다 => aim 만 회전히야지 캐릭터 자체가 회전하면 안됨. 캐릭터는 y축 회전만 적용되어야 한다.
             transform.rotation = Quaternion.Euler(0, _currentRotation.x, 0);

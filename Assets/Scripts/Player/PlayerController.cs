@@ -1,5 +1,6 @@
 using System;
 using Cinemachine;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,8 @@ namespace Player
         [SerializeField] private CinemachineVirtualCamera _aimCamera;
         [SerializeField] private Gun _gun;
         [SerializeField] private Animator _aimAnimator;
+        [SerializeField] private HpGuageUI _hpUI;
+        
         
         [SerializeField] private KeyCode _aimKey;
         [SerializeField] private KeyCode _shootKey;
@@ -90,8 +93,34 @@ namespace Player
             _status.IsAiming.Value = Input.GetKey(_aimKey);
         }
 
+
+        public void TakeDamage(int value)
+        {
+            //체력을 떨어뜨리되, 체력이 0 이하기 되면 플레이어가 죽도로 처리
+            _status.CurrentHp.Value -= value;
+            if (_status.CurrentHp.Value <= 0) Dead();
+        }
+
+        public void RecoveryHp(int value)
+        {
+            //체력을 회복시키되, MaxHp보다 초과가 되는 것을 막아야 함
+            int hp = _status.CurrentHp.Value + value;
+
+            _status.CurrentHp.Value = Mathf.Clamp(hp, 0, _status.MaxHp);
+        }
+
+        public void Dead()
+        {
+            //직접 구현해보기
+            Debug.Log("플레이어 사망 처리");
+        }
+        
+
         private void SubscribeEvents()
         {
+            
+            _status.CurrentHp.Subscribe(SetHpUIGuage);
+            
             _status.IsAiming.Subscribe(_aimCamera.gameObject.SetActive);
             _status.IsAiming.Subscribe(SetAimAnimation);
             _status.IsMoving.Subscribe(SetMoveAnimation);
@@ -100,6 +129,8 @@ namespace Player
 
         private void UnsubscribeEvents()
         {
+            _status.CurrentHp.Unsubscribe(SetHpUIGuage);
+            
             _status.IsAiming.Unsubscribe(_aimCamera.gameObject.SetActive);
             _status.IsAiming.Unsubscribe(SetAimAnimation);
             _status.IsMoving.Unsubscribe(SetMoveAnimation);
@@ -115,5 +146,14 @@ namespace Player
         } 
         private void SetMoveAnimation(bool value) => _animator.SetBool("IsMove", value);
         private void SetAttackAnimation(bool value) => _animator.SetBool("IsAttack", value);
+
+
+        private void SetHpUIGuage(int currentHp)
+        {
+            // 현재 수치 / 최대 수치 적용
+            float hp = currentHp / (float) _status.MaxHp;
+            _hpUI.SetImageFillAmount(hp);
+        }
+        
     }
 }
