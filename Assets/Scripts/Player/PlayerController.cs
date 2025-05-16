@@ -38,6 +38,9 @@ namespace Player
             _movement = GetComponent<PlayerMovement>();
             _animator = GetComponent<Animator>();
             _aimImg = _aimAnimator.GetComponent<Image>();
+            
+            _hpUI.SetImageFillAmount(1);
+            _status.CurrentHp.Value = _status.MaxHp;
         }
 
         private void HandlePlayerControl()

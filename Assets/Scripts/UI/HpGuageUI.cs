@@ -15,7 +15,6 @@ namespace UI
  
 
         private void Awake() => Init();
-
         private void LateUpdate() => SetUIForwardVector(_cameraTransform.forward);
 
         private void Init()
